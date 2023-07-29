@@ -1,0 +1,15 @@
+#Config specific for production environment .
+
+
+version: "3"
+services: 
+  yaml-node-app:
+    build:
+      context: .
+      args: 
+        NODE_ENV: production
+    environment:
+      - NODE_ENV=production
+    command: npm run start # Will overide CMD in dockerfile
+      
+    

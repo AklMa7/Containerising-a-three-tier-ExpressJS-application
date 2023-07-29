@@ -1,0 +1,26 @@
+#A way to automate : To not run the whole command to launch every container. we create a file where we list all the steps.
+#Every docker container we wanna run here is called a service.
+#In yaml file spacing matters !!!!
+
+# docker run -v ${pwd}:/app -v /app/node_modules --env PORT=3000 -p 3000:3000 -d --name node-app node-app-image
+
+version: "3"
+services:
+  yaml-node-app:           #Name we give to container
+    build: .               #Directory of the docker file (our current in this case = .) / Automates the "docker build" command
+    ports:
+      - "3000:3000"        # "-" refers to a list (basicaly multi lines attributes)
+    # - "4000:4000"
+    volumes:
+      - ./:/app 
+      - /app/node_modules
+    environment:
+      - PORT=3000
+    #env_file:
+    #  - ./.env     for the --env-file ./.env (check the text doc)
+    
+
+      
+
+
+

@@ -1,0 +1,26 @@
+#Config specific for development environment .
+#Anythin here can overide the one in the docker-compose.yml because we run the base b4 this one in terminal (same for prod)
+
+version: "3"
+services:
+  yaml-node-app:
+    build:
+      context: .
+      args: 
+        NODE_ENV: development #define build-time variables that can be used during the image build process
+    volumes: 
+      - ./:/app 
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development  #allows you to set environment variables for the running container. 
+      - MongoDB_USER=aklma7    #To connect the db to the app
+      - MongoDB_PASSWORD=aklma7aklma7
+    command: npm run dev   # Will run the script in the package.json     #Will overide the CMD in the dockerfile 
+
+  MongoDB:                                               # To start a mongoDB server instance ( a second container )
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=aklma7    #gonna hard code it for now ( not a good practice)
+      - MONGO_INITDB_ROOT_PASSWORD=aklma7aklma7     
+
+
+          

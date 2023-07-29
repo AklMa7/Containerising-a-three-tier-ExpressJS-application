@@ -1,0 +1,9 @@
+# List every file and folder that we dont wanna copy into container 
+
+node_modules 
+Dockerfile
+.dockerignore
+.git
+.gitignore
+#Any file that starts with the prefix before* wont be copied
+docker-compose*  

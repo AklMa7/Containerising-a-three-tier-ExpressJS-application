@@ -1,0 +1,30 @@
+#Any config shared bw environments.
+
+# docker run -v ${pwd}:/app -v /app/node_modules --env PORT=3000 -p 3000:3000 -d --name yaml-node-app node-app-image
+
+version: "3"
+services: 
+  yaml-node-app:
+    build: .        #same image for both env / Build from a dockerfile
+    ports:
+      - "3000:3000"   #Same ports for both env
+    environment:
+      - PORT=3000    #Same env variables
+    depends_on:
+      - MongoDB
+  
+  
+  MongoDB:                                               # To start a mongoDB server instance ( a second container )
+    image: mongo   # Not specifiying tag = latest version .
+    environment:  # To log into the DB in the container
+      - MONGO_INITDB_ROOT_USERNAME=aklma7    #gonna hard code it for now ( not a good practice)
+      - MONGO_INITDB_ROOT_PASSWORD=aklma7aklma7 
+
+        # after loggin into the mongodb container pass in the command : mongosh -u "username" -p "password" 
+
+    volumes:
+      - mongo-db:/data/db   #named volume .. istead of providing a path we provide a name:path -> Prevent our DB from being deleted.
+                             # be careful with the -v flag
+    
+volumes:
+  mongo-db:  #We declare the volume used because it can be used by other services.
