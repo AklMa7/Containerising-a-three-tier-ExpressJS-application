@@ -15,6 +15,8 @@ services:
       - NODE_ENV=development  #allows you to set environment variables for the running container. 
       - MongoDB_USER=aklma7    #To connect the db to the app
       - MongoDB_PASSWORD=aklma7aklma7
+      - SESSION_SECRET=secret
+    
     command: npm run dev   # Will run the script in the package.json     #Will overide the CMD in the dockerfile 
 
   MongoDB:                                               # To start a mongoDB server instance ( a second container )

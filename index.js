@@ -1,14 +1,34 @@
 //Imports the Express.js module by requiring it. It assigns the express variable to the imported module.
 const express = require("express") 
 
+const { MongoDB_USER, MongoDB_PASSWORD, MongoDB_IP, MongoDB_PORT, REDIS_PORT, REDIS_URL, SESSION_SECRET } = require("./config/config");
+
+//const session = require("express-session")
+const redis = require("redis")
+const RedisStore = require("connect-redis").default
+
+// Initialize client.
+let redisClient = redis.createClient({
+    host: REDIS_URL,
+    port: REDIS_PORT
+})
+redisClient.connect().catch(console.error)
+
+// Initialize store.
+let redisStore = new RedisStore({
+  client: redisClient,
+  prefix: "myapp:",
+})
+
 //
 const mongoose = require('mongoose');
-const { MongoDB_USER, MongoDB_PASSWORD, MongoDB_IP, MongoDB_PORT } = require("./config/config");
+
 
 
 // wiring the router.
 const postRouter = require("./routes/postRoutes");
 const userRouter = require("./routes/userRoutes");
+const session = require("express-session");
 
 
 
@@ -32,6 +52,22 @@ const connectWithRetry = () => {
 connectWithRetry();
 
 
+// Initialize sesssion storage.
+app.use(
+    session({
+      store: redisStore,
+      secret: SESSION_SECRET,
+      cookie:{
+        secure: false,
+        resave: false, // required: force lightweight session keep alive (touch)
+        saveUninitialized: false, // recommended: only save session when data exists
+        httpOnly: true,
+        maxAge: 300000
+      },
+
+    })
+  );
+
 
 // middleware for when we do any action.
 app.use(express.json());
@@ -40,7 +76,7 @@ app.use(express.json());
 
 // Route for testing purposes / sets up a route handler for the root URL ("/").
 app.get( "/" , (req , res) => {
-    res.send("<h2> Hi there IndianJesus </h2>");   // "/" refers to root path 
+    res.send("<h2> Hi there IndianJesus ::::</h2>");   // "/" refers to root path 
 });
 
 
