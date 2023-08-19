@@ -26,5 +26,11 @@ services:
       - mongo-db:/data/db   #named volume .. istead of providing a path we provide a name:path -> Prevent our DB from being deleted.
                              # be careful with the -v flag
     
+
+  redis:            # Third container for the redis instance ( Where we store our authentication credentials )
+    image: redis 
+  
+
+
 volumes:
   mongo-db:  #We declare the volume used because it can be used by other services.
