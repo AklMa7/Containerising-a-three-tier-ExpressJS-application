@@ -3,6 +3,10 @@
 
 version: "3"
 services: 
+  nginx:
+    ports:
+      - "80:80"
+  
   yaml-node-app:
     build:
       context: .

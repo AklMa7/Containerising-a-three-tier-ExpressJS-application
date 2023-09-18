@@ -3,11 +3,13 @@ const express = require("express")
 
 const { MongoDB_USER, MongoDB_PASSWORD, MongoDB_IP, MongoDB_PORT, REDIS_PORT, REDIS_URL, SESSION_SECRET } = require("./config/config");
 
+/*
 //const session = require("express-session")
 const redis = require("redis")
 const RedisStore = require("connect-redis").default
 
 // Initialize client.
+
 let redisClient = redis.createClient({
     host: REDIS_URL,
     port: REDIS_PORT
@@ -19,7 +21,7 @@ let redisStore = new RedisStore({
   client: redisClient,
   prefix: "myapp:",
 })
-
+*/
 //
 const mongoose = require('mongoose');
 
@@ -52,6 +54,9 @@ const connectWithRetry = () => {
 connectWithRetry();
 
 
+app.enable("trust proxy"); // In case we need access to the original sender's IP adress we told Nginx to keep in default.conf
+
+/*
 // Initialize sesssion storage.
 app.use(
     session({
@@ -68,16 +73,19 @@ app.use(
     })
   );
 
-
+*/
 // middleware for when we do any action.
 app.use(express.json());
 
 
 
 // Route for testing purposes / sets up a route handler for the root URL ("/").
-app.get( "/" , (req , res) => {
-    res.send("<h2> Hi there IndianJesus ::::</h2>");   // "/" refers to root path 
+app.get( "/api/v1" , (req , res) => {
+    res.send("<h2> Hi there IndianJesus aw92 </h2>");   // "/" refers to root path 
+    console.log("LB success");
+
 });
+
 
 
 

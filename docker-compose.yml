@@ -3,11 +3,16 @@
 # docker run -v ${pwd}:/app -v /app/node_modules --env PORT=3000 -p 3000:3000 -d --name yaml-node-app node-app-image
 
 version: "3"
-services: 
+services:
+  nginx:
+    image: nginx:stable-alpine
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro   # :ro = read only / Bind mount 
+  
   yaml-node-app:
     build: .        #same image for both env / Build from a dockerfile
-    ports:
-      - "3000:3000"   #Same ports for both env
+#    ports:
+#      - "3000:3000"   #Same ports for both env     # No need for this after adding Nginx
     environment:
       - PORT=3000    #Same env variables
     depends_on:
