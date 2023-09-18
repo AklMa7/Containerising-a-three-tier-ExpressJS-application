@@ -3,6 +3,9 @@ const express = require("express")
 
 const { MongoDB_USER, MongoDB_PASSWORD, MongoDB_IP, MongoDB_PORT, REDIS_PORT, REDIS_URL, SESSION_SECRET } = require("./config/config");
 
+
+
+const cors = require("cors");
 /*
 //const session = require("express-session")
 const redis = require("redis")
@@ -56,6 +59,8 @@ connectWithRetry();
 
 app.enable("trust proxy"); // In case we need access to the original sender's IP adress we told Nginx to keep in default.conf
 
+app.use(cors({}));
+
 /*
 // Initialize sesssion storage.
 app.use(
@@ -81,7 +86,7 @@ app.use(express.json());
 
 // Route for testing purposes / sets up a route handler for the root URL ("/").
 app.get( "/api/v1" , (req , res) => {
-    res.send("<h2> Hi there IndianJesus aw92 </h2>");   // "/" refers to root path 
+    res.send("<h2> Hi there IndianJesus aw93 </h2>");   // "/" refers to root path 
     console.log("LB success");
 
 });
